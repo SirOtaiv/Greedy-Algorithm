@@ -3,6 +3,8 @@ import json
 if __name__ == "__main__":
     cityObject = json.load(open("./files/cidades_sc_distancias.json", encoding="utf-8"))
 
+    print(f'O tipo da var é: {type(cityObject)}')
+
     for city in list(cityObject.keys()):
         print(f'Cidade {city}')
     
@@ -24,5 +26,16 @@ if __name__ == "__main__":
 
     print(f'Origem: {cidadeOrigem}\nDestino: {cidadeDestino} ')
 
+
+    distancia = 999999
+    destino = ""
+    for destino_aux, distancia_aux in cityObject[cidadeOrigem].items():
+        if (distancia_aux < distancia):
+            distancia = distancia_aux
+            destino = destino_aux
+    
+    print(f'A cidade mais próxima é: {destino} - {distancia}Km')
+    
+
     print(f'Lista de cidades próximas: {", ".join(list(cityObject[cidadeOrigem].keys()))}')
-    print(f'Lista de cidades próximas: {list(cityObject[cidadeOrigem].items())}')
+    print(f'Array de Debug: {list(cityObject[cidadeOrigem].items())}')
