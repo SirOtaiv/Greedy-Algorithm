@@ -1,5 +1,31 @@
 import json
 
+def Guloso_Algorythm(data: dict, origemPoint: str, destinyPoint: str):
+
+    fullValue = 0
+    keyReturn = origemPoint
+    keyHistoric = [origemPoint]
+
+    while (keyReturn != destinyPoint):
+        valueControl = 999999
+
+        for key_aux, value_aux in data[keyReturn].items():
+            if (value_aux < valueControl):
+                    
+                valueControl = value_aux
+                keyReturn = key_aux
+
+        if (keyReturn in keyHistoric):
+            print(f'Próximo caminho {keyReturn} já foi passado')
+            break
+        
+        else:
+            fullValue += valueControl
+            keyHistoric.append(key_aux)
+            print(f'Próximo destino: {keyReturn} - {valueControl}Km')
+    
+    return keyReturn, fullValue
+
 if __name__ == "__main__":
     cityObject = json.load(open("./files/cidades_sc_distancias.json", encoding="utf-8"))
 
@@ -27,15 +53,6 @@ if __name__ == "__main__":
     print(f'Origem: {cidadeOrigem}\nDestino: {cidadeDestino} ')
 
 
-    distancia = 999999
-    destino = ""
-    for destino_aux, distancia_aux in cityObject[cidadeOrigem].items():
-        if (distancia_aux < distancia):
-            distancia = distancia_aux
-            destino = destino_aux
+    destino, distanciaTotal = Guloso_Algorythm(cityObject, cidadeOrigem, cidadeDestino) 
     
-    print(f'A cidade mais próxima é: {destino} - {distancia}Km')
-    
-
-    print(f'Lista de cidades próximas: {", ".join(list(cityObject[cidadeOrigem].keys()))}')
-    print(f'Array de Debug: {list(cityObject[cidadeOrigem].items())}')
+    print(f'Você chegou a seu destino {destino} - {distanciaTotal}Km Total')
